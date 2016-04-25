@@ -1,0 +1,112 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="cn.net.sinodata.cm"></context:component-scan>
+
+	<!-- mysql database -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="user">
+			<value>image</value>
+		</property>
+		<property name="password">
+			<value>image</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>jdbc:mysql://localhost/image</value>
+		</property>
+	</bean>
+
+	<!-- transaction support -->
+	<!-- PlatformTransactionMnager -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- enable transaction annotation support -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.net.sinodata.cm.mybatis.mapper" />
+	</bean>
+
+	<!-- JCR配置 -->
+	<bean id="repository" class="org.springmodules.jcr.jackrabbit.RepositoryFactoryBean">
+		<property name="configuration">
+			<value>classpath:resources/repository/repository-test.xml</value>
+		</property>
+		<property name="homeDir" value="file:f:/jcrworkspace" />
+	</bean>
+
+	<bean id="passwordBuffer" class="java.lang.StringBuffer">
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean id="password" factory-bean="passwordBuffer" factory-method="toString" />
+
+	<bean id="jcrSessionFactory" class="org.springmodules.jcr.JcrSessionFactory">
+		<!-- <bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.JcrSessionFactory"> -->
+		<property name="repository" ref="repository" />
+		<property name="credentials">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="bogus" />
+				<constructor-arg index="1">
+					<bean factory-bean="password" factory-method="toCharArray" />
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="forceNamespacesRegistration" value="false" />
+		<property name="keepNewNamespaces" value="true" />
+		<property name="namespaces">
+			<props>
+				<prop key="cm">http://www.siondata.net.cn/cm</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
+		<property name="sessionFactory" ref="jcrSessionFactory" />
+		<property name="allowCreate" value="true" />
+	</bean>
+
+	<bean id="jcrTransactionManager" class="org.springmodules.jcr.jackrabbit.LocalTransactionManager">
+		<property name = "sessionFactory" ref = "jcrSessionFactory"/>
+	</bean>
+
+	 <!-- transaction proxy for Jcr services/facades -->
+
+    <bean id="txProxyTemplate" abstract="true"
+    class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" >
+       <property name = "proxyTargetClass">
+           <value>true</value>
+       </property>
+    <property name="transactionManager" ref="jcrTransactionManager" />
+       <property name="transactionAttributes">
+           <props>
+              <prop key="add*"> PROPAGATION_REQUIRED, -Exception</prop>
+              <prop key="*"> PROPAGATION_REQUIRED, readOnly</prop>
+           </props>
+       </property>
+    </bean>
+
+    <bean id="manageService" parent="txProxyTemplate">
+       <property name="target">
+           <bean class="cn.net.sinodata.cm.service.impl.ManageServiceImpl">
+           </bean>
+       </property>
+    </bean>
+
+
+</beans>

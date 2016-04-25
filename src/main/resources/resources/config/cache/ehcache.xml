@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<diskStore path="java.temp.dir" />
+	<defaultCache maxElementsInMemory="10000" eternal="true"
+		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"
+		diskSpoolBufferSizeMB="30" maxElementsOnDisk="10000000"
+		diskExpiryThreadIntervalSeconds="120" diskPersistent="true"
+		memoryStoreEvictionPolicy="LRU" />
+	<cache name="eh.forever" maxElementsInMemory="10000" diskPersistent="true"
+		maxElementsOnDisk="1000" eternal="true" overflowToDisk="true"
+		diskSpoolBufferSizeMB="20" memoryStoreEvictionPolicy="LFU" />
+	<cache name="eh.tenms" maxElementsInMemory="10000"
+		maxElementsOnDisk="1000" eternal="false" overflowToDisk="true"
+		diskSpoolBufferSizeMB="20" timeToIdleSeconds="600"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU" />
+	<cache name="eh.thirtyms" maxElementsInMemory="10000"
+		maxElementsOnDisk="1000" eternal="false" overflowToDisk="true"
+		diskSpoolBufferSizeMB="20" timeToIdleSeconds="1800"
+		timeToLiveSeconds="1800" memoryStoreEvictionPolicy="LFU" />
+</ehcache>

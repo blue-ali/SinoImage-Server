@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Repository PUBLIC "-//The Apache Software Foundation//DTD Jackrabbit 1.5//EN"  "http://jackrabbit.apache.org/dtd/repository-1.5.dtd">
+<Repository>
+	
+	<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+		<param name="path" value="${rep.home}/repository" />
+	</FileSystem>
+
+	<Security appName="Jackrabbit">
+		<AccessManager 
+			class="org.apache.jackrabbit.core.security.SimpleAccessManager"  />
+		<LoginModule 
+			class="org.apache.jackrabbit.core.security.SimpleLoginModule"  />
+	</Security>
+
+	<Workspaces rootPath="d:/UImage/jcrhome/workspaces" 
+		defaultWorkspace="jcr"  />
+	<Workspace  name="${wsp.name}">
+		<FileSystem 
+			class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+			<param  name="path"  value="${wsp.home}"  />
+		</FileSystem>
+
+		<PersistenceManager 
+			class="org.apache.jackrabbit.core.persistence.bundle.BundleFsPersistenceManager"  />
+		
+		<SearchIndex 
+			class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+			<param  name="path"  value="${rep.home}/workspaces/index"  />
+		</SearchIndex>
+	</Workspace>
+	
+	<Versioning  rootPath="d:/UImage/jcrhome/versions">
+		<FileSystem 
+			class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+			<param  name="path"  value="${rep.home}/versions"  />
+		</FileSystem>
+		
+		<PersistenceManager 
+			class="org.apache.jackrabbit.core.persistence.bundle.BundleFsPersistenceManager"  />
+	</Versioning>
+	
+	<SearchIndex 
+		class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+		<param  name="path"  value="${rep.home}/repository/index"  />
+	</SearchIndex>
+	
+	<!--如下为集群配置，多个配是如下目录“directory”目录在多个存储中是共享的 -->
+	<Cluster  id="node2"  syncDelay="5">
+		<Journal  class="org.apache.jackrabbit.core.journal.FileJournal">
+			<param  name="revision"  value="${rep.home}/revision.log"  />
+			<param  name="directory"  value="d:/jcrhome/uimageswip"  />
+		</Journal>
+	</Cluster>
+	
+</Repository>

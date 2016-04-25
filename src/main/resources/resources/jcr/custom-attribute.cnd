@@ -1,0 +1,8 @@
+[cm:suffixable]
+
+mixin
+
+- cm:suffix (string)
+- cm:md5 (string)
+- cm:fileName (string)
+ 

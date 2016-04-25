@@ -1,0 +1,128 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="cn.net.sinodata.cm"></context:component-scan>
+
+	<!-- mysql database -->
+	<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"> 
+		<property name="driverClass"> <value>com.mysql.jdbc.Driver</value> </property> 
+		<property name="user"> <value>image</value> </property> <property name="password"> 
+		<value>image</value> </property> <property name="jdbcUrl"> <value>jdbc:mysql://localhost/image</value> 
+		</property> </bean> -->
+
+	<!-- transaction support -->
+	<!-- PlatformTransactionMnager -->
+	<!-- <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="dataSource" /> </bean> -->
+	<!-- enable transaction annotation support -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 数据源 -->
+	<bean id="jdbcManagedConnectionFactory" class="org.jencks.tranql.DataSourceMCF">
+		<property name="driverName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/image" />
+		<property name="user" value="image" />
+		<property name="password" value="image" />
+	</bean>
+	<bean id="dataSource" class="org.jencks.factory.ConnectionFactoryFactoryBean">
+		<property name="managedConnectionFactory" ref="jdbcManagedConnectionFactory" />
+		<property name="connectionManager">
+			<bean parent="connectionManager" />
+		</property>
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		depends-on="dataSource">
+		<property name="basePackage" value="cn.net.sinodata.cm.mybatis.mapper" />
+	</bean>
+
+
+
+	<!-- JCR配置 -->
+	<bean id="repositoryManagedConnectionFactory" class="org.apache.jackrabbit.jca.JCAManagedConnectionFactory">
+		<property name="homeDir" value="f:/jcrworkspace" />
+		<property name="configFile"
+			value="classpath:resources/repository/repository-cluster.xml" />
+	</bean>
+
+	<bean id="repository"
+		class="org.springframework.jca.support.LocalConnectionFactoryBean">
+		<property name="managedConnectionFactory">
+			<ref bean="repositoryManagedConnectionFactory" />
+		</property>
+		<property name="connectionManager">
+			<bean parent="connectionManager" />
+		</property>
+	</bean>
+
+	<bean id="passwordBuffer" class="java.lang.StringBuffer">
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean id="password" factory-bean="passwordBuffer" factory-method="toString" />
+
+	<bean id="jcrSessionFactory" class="org.springmodules.jcr.JcrSessionFactory">
+		<property name="repository" ref="repository" />
+		<property name="credentials">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="bogus" />
+				<constructor-arg index="1">
+					<bean factory-bean="password" factory-method="toCharArray" />
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="forceNamespacesRegistration" value="false" />
+		<property name="keepNewNamespaces" value="true" />
+		<property name="namespaces">
+			<props>
+				<prop key="cm">http://www.siondata.net.cn/cm</prop>
+			</props>
+		</property>
+		<!-- <property name="nodeDefinitions"> <list> <value>classpath:/nodeTypes/wikiTypes.cnd</value> 
+			<value>classpath:/nodeTypes/clientATypes.cnd</value> </list> </property> -->
+	</bean>
+
+
+	<bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
+		<property name="sessionFactory" ref="jcrSessionFactory" />
+		<property name="allowCreate" value="true" />
+	</bean>
+
+	<!-- JTA配置 -->
+	<!-- 事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="userTransaction">
+			<ref bean="delegateTransactionManager" />
+		</property>
+	</bean>
+	<bean id="delegateTransactionManager" class="org.jencks.factory.TransactionManagerFactoryBean" />
+	<!-- 连接管理器 -->
+	<bean id="connectionManager" class="org.jencks.factory.ConnectionManagerFactoryBean"
+		abstract="true">
+		<property name="transactionManager">
+			<ref bean="delegateTransactionManager" />
+		</property>
+		<property name="transaction" value="xa" />
+	</bean>
+
+	<!-- <bean id="manageService" parent="txProxyTemplate"> -->
+	<!-- <property name="target"> -->
+	<!-- <bean class="cn.net.sinodata.cm.service.impl.ManageServiceImpl"> -->
+	<!-- </bean> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	
+</beans>

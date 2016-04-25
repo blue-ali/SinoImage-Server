@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="GB2312"?>
+<ServiceClasses>
+
+	<!-- 《功能码服务配置》 -->
+	<!-- 1、beanid必须和spring中的beanId一致； -->
+	<!-- 2、beanid为XXXX表示暂不开放此功能，该配置不会被加载； -->
+	<!-- 3、reponse默认为true，可以不配置； -->
+	<!-- 4、tradecode不能重复； -->
+	<!-- 5、必须按tradecode数字从小到大顺序配置服务； -->
+
+	<service>
+		<tradecode>1000</tradecode>
+		<beanid>stopProcessService</beanid>
+		<description>终止流程</description>
+	</service>
+
+	<service>
+		<tradecode>1001</tradecode>
+		<beanid>completeTaskService</beanid>
+		<description>提交任务</description>
+	</service>
+
+	<service>
+		<tradecode>1004</tradecode>
+		<beanid>startProcessService</beanid>
+		<description>启动流程</description>
+	</service>
+
+	<service>
+		<tradecode>1005</tradecode>
+		<beanid>getTaskListService</beanid>
+		<description>查询任务</description>
+	</service>
+
+	<service>
+		<tradecode>1006</tradecode>
+		<beanid>autoTakeTaskService</beanid>
+		<description>自动获取任务</description>
+	</service>
+
+	<service>
+		<tradecode>1007</tradecode>
+		<beanid>takeTaskService</beanid>
+		<description>获取任务</description>
+	</service>
+
+	<service>
+		<tradecode>1008</tradecode>
+		<beanid>logonFilenetService</beanid>
+		<description>登录Filenet</description>
+	</service>
+
+	<service>
+		<tradecode>1009</tradecode>
+		<beanid>logoffFilenetService</beanid>
+		<description>退出Filenet</description>
+	</service>
+
+	<service>
+		<tradecode>1010</tradecode>
+		<beanid>ldapAddEntryService</beanid>
+		<description>增加ldap条目</description>
+	</service>
+
+	<service>
+		<tradecode>1011</tradecode>
+		<beanid>ldapDeleteEntryService</beanid>
+		<description>删除ldap条目</description>
+	</service>
+
+	<service>
+		<tradecode>1012</tradecode>
+		<beanid>ldapModifyEntryService</beanid>
+		<description>修改ldap条目</description>
+	</service>
+
+	<service>
+		<tradecode>1013</tradecode>
+		<beanid>ldapSearchEntryService</beanid>
+		<description>查询ldap条目</description>
+	</service>
+
+	<service>
+		<tradecode>1014</tradecode>
+		<beanid>accountChargeHandleService</beanid>
+		<description>账务处理-记账</description>
+	</service>
+
+	<service>
+		<tradecode>1015</tradecode>
+		<beanid>accountChargeHandleResponseService</beanid>
+		<description>账务处理-记账返回</description>
+	</service>
+
+	<service>
+		<tradecode>1016</tradecode>
+		<beanid>commonNodeService</beanid>
+		<description>公共节点处理</description>
+	</service>
+
+	<service>
+		<tradecode>1017</tradecode>
+		<beanid>XXXX</beanid>
+		<description>机构签到</description>
+	</service>
+
+	<service>
+		<tradecode>1018</tradecode>
+		<beanid>XXXX</beanid>
+		<description>机构签退</description>
+	</service>
+
+	<service>
+		<tradecode>1019</tradecode>
+		<beanid>XXXX</beanid>
+		<description>柜员签到</description>
+	</service>
+
+	<service>
+		<tradecode>1020</tradecode>
+		<beanid>XXXX</beanid>
+		<description>柜员签退</description>
+	</service>
+
+	<service>
+		<tradecode>1021</tradecode>
+		<beanid>XXXX</beanid>
+		<description>强制终止任务查询</description>
+	</service>
+
+	<service>
+		<tradecode>1022</tradecode>
+		<beanid>suspendTaskService</beanid>
+		<description>挂起任务</description>
+	</service>
+
+	<service>
+		<tradecode>1023</tradecode>
+		<beanid>XXXX</beanid>
+		<description>作业中心开启</description>
+	</service>
+
+	<service>
+		<tradecode>1024</tradecode>
+		<beanid>XXXX</beanid>
+		<description>作业中心关闭</description>
+	</service>
+
+	<service>
+		<tradecode>1025</tradecode>
+		<beanid>XXXX</beanid>
+		<description>强制柜员签退</description>
+	</service>
+
+	<service>
+		<tradecode>1026</tradecode>
+		<beanid>bizJrnlQryService</beanid>
+		<description>流水勾兑</description>
+	</service>
+
+	<service>
+		<tradecode>1027</tradecode>
+		<beanid>releaseTaskService</beanid>
+		<description>任务释放</description>
+	</service>
+
+	<service>
+		<tradecode>1028</tradecode>
+		<beanid>XXXX</beanid>
+		<description>强制终止任务</description>
+	</service>
+
+	<service>
+		<tradecode>1029</tradecode>
+		<beanid>XXXX</beanid>
+		<description>任务轨迹查询</description>
+	</service>
+
+	<service>
+		<tradecode>1030</tradecode>
+		<beanid>XXXX</beanid>
+		<description>账号交易明细查询</description>
+	</service>
+
+	<service>
+		<tradecode>1031</tradecode>
+		<beanid>bizJrnlQryService</beanid>
+		<description>业务流水日志查询</description>
+	</service>
+
+	<service>
+		<tradecode>1032</tradecode>
+		<beanid>XXXX</beanid>
+		<description>挂起解挂业务查询</description>
+	</service>
+
+	<service>
+		<tradecode>1033</tradecode>
+		<beanid>resumeTaskService</beanid>
+		<description>解挂交易</description>
+	</service>
+
+	<service>
+		<tradecode>1034</tradecode>
+		<beanid>XXXX</beanid>
+		<description>业务统计查询</description>
+	</service>
+
+	<service>
+		<tradecode>1035</tradecode>
+		<beanid>XXXX</beanid>
+		<description>补扫交易</description>
+	</service>
+
+	<service>
+		<tradecode>1036</tradecode>
+		<beanid>XXXX</beanid>
+		<description>业务登记簿查询</description>
+	</service>
+
+	<service>
+		<tradecode>1037</tradecode>
+		<beanid>XXXX</beanid>
+		<description>冲账请求</description>
+	</service>
+
+	<service>
+		<tradecode>1038</tradecode>
+		<beanid>XXXX</beanid>
+		<description>更新记账状态</description>
+	</service>
+
+	<service>
+		<tradecode>1039</tradecode>
+		<beanid>XXXX</beanid>
+		<description>转授权或转授权收回</description>
+	</service>
+
+	<service>
+		<tradecode>1040</tradecode>
+		<beanid>XXXX</beanid>
+		<description>冲账业务查询</description>
+	</service>
+	
+	<service>
+		<tradecode>1041</tradecode>
+		<beanid>completeSuspendTaskService</beanid>
+		<description>提交任务并挂起下一任务服务</description>
+		<response>false</response>
+	</service>
+
+
+	<service>
+		<tradecode>2001</tradecode>
+		<beanid>fetchProcessTrackerService</beanid>
+		<description>流程轨迹查询</description>
+	</service>
+
+	<service>
+		<tradecode>8000</tradecode>
+		<beanid>cpsRequestHandleService</beanid>
+		<description>切片发送请求服务</description>
+		<response>false</response>
+	</service>
+
+	<service>
+		<tradecode>8001</tradecode>
+		<beanid>cpsResultHandleService</beanid>
+		<description>切片结果处理服务</description>
+	</service>
+
+	<service>
+		<tradecode>8002</tradecode>
+		<beanid>resultComparisonService</beanid>
+		<description>录入结果比对服务</description>
+		<response>false</response>
+	</service>
+
+	<service>
+		<tradecode>8003</tradecode>
+		<beanid>chargeHandleService</beanid>
+		<description>记账发送请求服务</description>
+		<response>false</response>
+	</service>
+
+	<service>
+		<tradecode>8004</tradecode>
+		<beanid>sealBatchRequestHandleService</beanid>
+		<description>后台批量验印请求服务</description>
+		<response>false</response>
+	</service>
+
+	<service>
+		<tradecode>8005</tradecode>
+		<beanid>ruleJudgementHandleService</beanid>
+		<description>公共节点规则调用服务</description>
+		<response>false</response>
+	</service>
+	
+	<service>
+		<tradecode>8007</tradecode>
+		<beanid>correctionHandleService</beanid>
+		<description>冲账服务</description>
+		<response>false</response>
+	</service>
+	
+	<service>
+		<tradecode>9001</tradecode>
+		<beanid>switchWodmCallTypeService</beanid>
+		<description>切换WODM规则调用方式服务</description>
+		<response>false</response>
+	</service>
+
+
+	<service>
+		<tradecode>9999</tradecode>
+		<beanid>testService</beanid>
+		<description>测试服务</description>
+		<response>false</response>
+	</service>
+</ServiceClasses>

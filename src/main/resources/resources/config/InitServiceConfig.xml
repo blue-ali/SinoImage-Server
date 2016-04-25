@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- bpc启动时会先执行所有同步启动服务，之后再执行异步启动服务 -->
+<root>
+	<synchronous>	<!-- 同步启动服务，以非线程方式执行 -->
+		<initservice>
+			<description>初始化参数服务</description>
+			<classname>cn.net.sinodata.image.service.init.InitAllConfigService</classname>
+		</initservice>
+	</synchronous>
+	
+	<asynchronous>	<!-- 异步启动服务，以线程方式执行 -->
+		<initservice>
+			<description>定时计划服务</description>
+			<classname>cn.net.sinodata.image.service.schedule.ScheduledService</classname>
+			<thread-num>1</thread-num>
+		</initservice>
+	</asynchronous>
+</root>

@@ -1,0 +1,17 @@
+log4j.rootLogger=debug,console
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS}[%x]-[%t][%p]-[%c{1}]%m%n
+
+log4j.logger.org.springframework=DEBUG
+
+log4j.logger.cn=debug,cn
+log4j.appender.cn=org.apache.log4j.RollingFileAppender
+log4j.appender.cn.File=D\:\\AE.log
+#log4j.appender.framework.File=d\:\\logs\\framework.log
+log4j.appender.cn.Append=true
+log4j.appender.cn.MaxFileSize=5MB
+log4j.appender.cn.encoding=utf-8
+log4j.appender.cn.MaxBackupIndex=20
+log4j.appender.cn.layout=org.apache.log4j.PatternLayout
+log4j.appender.cn.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS}[%x]-[%t][%p]-[%c{1}]%m%n
